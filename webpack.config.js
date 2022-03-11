@@ -1,52 +1,67 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
-    mode: 'production',
-    entry: {
-        index: './src/index.js',
-
-      }, 
-    output: {
-        filename: 'index.bundle.js',
-        path: path.resolve(__dirname, 'assets'),
-        clean: true
-    },
-  //   plugins: [
-  //     new HtmlWebpackPlugin({
-  //       template: "./src/template.html",
-  //     }),
-  //     new CleanWebpackPlugin()
-  // ],
-    module: {
-        rules: [
+  plugins: [new MiniCssExtractPlugin()],
+  entry: {
+    main: "./src/main.js",
+    util: "./src/util.js",
+    analytics: "./src/analytics.js"
+  },
+  output: {
+    filename: "[name].js",
+    path: path.resolve(__dirname, "assets"),
+    clean: true,
+  },
+  resolve: {
+    extensions: [".ts", ".js", ".json"],
+  },
+  devtool: "inline-source-map",
+  module: {
+    rules: [
+      {
+        loader: "babel-loader",
+        options: {
+          presets: ["@babel/preset-env"],
+        },
+      },
+      {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/,
+        use: [
+          // Order is last to first
+          MiniCssExtractPlugin.loader,
           {
-            test: /\.css$/,
-            use: [
-            // Order is last to first
-                'style-loader',
-                {
-                    loader: 'css-loader',
-                    options: {
-                        importLoaders: 1
-                    }
-                }, 
-                'postcss-loader'
-            ],
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+            },
           },
-          {
-          test: /\.(png|jpe?g|svg)$/,
-            use: [
-              {
-                loader: 'file-loader',
-                options: {
-                  name: 'images/[name].[ext]'
-                }
-              }
-            ]
-          }
+          "postcss-loader",
         ],
-      }
-
+      },
+      {
+        test: /\.(png|jpe?g|svg)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "images/[name].[ext]",
+            },
+          },
+        ],
+      },
+    ],
+  },
+  optimization: {
+    minimizer: [new CssMinimizerPlugin(), "..."],
+  },
+  externals: {
+    google: "google",
+  },
 };

@@ -1,10 +1,9 @@
-node_modules/
-.artifact-output/
-public/
-assets/
-main.exe
-Users/
-localData/
+/.artifact-output
+/assets
+/public
+/localData
+/node_modules
+/sites-rendered-output
 cli
 cli.exe
-sites-rendered-output/
+/.idea

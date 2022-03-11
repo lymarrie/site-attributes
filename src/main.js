@@ -1,4 +1,5 @@
-import './global.css';
+import './main.css';
+
 
 function importAll(r) {
     let images = {};

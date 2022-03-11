@@ -1,0 +1,55 @@
+---
+{
+    "urlFormat": "index.html"
+}
+---
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {{>head }}
+        <title>Home Page</title>
+        <link rel="shortcut icon" type="image/jpg" href="/images/yext-favicon.png"/>
+    </head>
+    <body>      
+            <div class="w-full">
+                {{>nav}}
+                {{>hero-image-banner}}
+
+                <div class="centered-container">
+                    <div class="section">
+                        <h1>
+                            Welcome to <span class="bg-yellow-200">{{_site.name}}</span>
+                        </h1>
+                    </div>
+                    <div class="section">
+                        <h2>
+                            Is Conversion Tracking Enabled?
+                        </h2>
+                        <h3 class="bg-yellow-200">
+                            {{_site.c_enableConversionTracking}}
+                        </h3>
+                    </div>
+                    <div class="section">
+                        <h2>
+                            What are the site entity's Yext + Client GA IDs?
+                        </h2>
+                        <h3 class="bg-yellow-200">
+                            {{#with _site}}
+                                {{#each c_googleAnalytics}}
+                                    <div>Key: {{this.key}}, value: {{this.value}}</div>
+                                {{/each}}
+                            {{/with}}
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="w-full bg-gray-100">
+                    <div class="centered-container">
+                        {{>footer}}
+                    </div>
+                </div>
+            </div>
+            {{!-- {{>analytics}} --}}
+    </body> 
+
+</html>
